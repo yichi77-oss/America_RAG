@@ -1,0 +1,13 @@
+.env
+.venv/
+.venv312/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Local virtualenvs (catch-all)
+.venv*/
+venv/
+
+# Local vector DB / caches (not needed for submission)
+chroma_db_images/

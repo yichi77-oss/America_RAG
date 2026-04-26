@@ -1,0 +1,7 @@
+# 米国各州 RAG（Streamlit + LangChain + FAISS）
+streamlit
+langchain-core
+langchain-openai
+langchain-community
+langchain-text-splitters
+faiss-cpu

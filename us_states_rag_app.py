@@ -233,8 +233,14 @@ slug_list = [s for s, _ in state_labels]
 ja_list = [j for _, j in state_labels]
 idx_default = ja_list.index("カリフォルニア州") if "カリフォルニア州" in ja_list else 0
 
-if "state_sb" not in st.session_state:
-    st.session_state.state_sb = idx_default
+if "state_pick" not in st.session_state:
+    st.session_state.state_pick = idx_default
+
+# ランダムボタン用（ウィジェット key と衝突しない内部状態）
+if st.session_state.pop("_do_random_state", False):
+    st.session_state.state_pick = random.randint(0, len(ja_list) - 1)
+
+state_index = max(0, min(st.session_state.state_pick, len(ja_list) - 1))
 
 c1, c2, c3 = st.columns([2, 2, 1])
 with c1:
@@ -242,8 +248,9 @@ with c1:
         "州（ワシントンD.C.含む）",
         options=list(range(len(ja_list))),
         format_func=lambda i: ja_list[i],
-        key="state_sb",
+        index=state_index,
     )
+    st.session_state.state_pick = pick
 with c2:
     topic_labels = [t[1] for t in TOPIC_CHOICES]
     topic_keys = [t[0] for t in TOPIC_CHOICES]
@@ -258,7 +265,7 @@ with c3:
     st.write("")
     st.write("")
     if st.button("州をランダム", help="デモ用に州だけランダム選択"):
-        st.session_state.state_sb = random.randint(0, len(ja_list) - 1)
+        st.session_state._do_random_state = True
         st.rerun()
 
 slug = slug_list[pick]
